@@ -38,3 +38,8 @@
 |        | 添加课程                                        |
 |        | 删除课程                                        |
 
+#### 运行环境：
+  JetBrains PyCharm 2018.3.1 x64
+	python3.7
+	flask1.0.2
+  
