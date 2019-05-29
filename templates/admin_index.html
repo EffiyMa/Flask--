@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+    <li class="tpl-left-nav-item">
+        <a class="nav-link active" href={{ url_for('manager_index') }}>
+            <i class="am-icon-home"></i>
+            <span>系统首页</span>
+        </a>
+    </li>
+
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list"  href={{ url_for('manager_depart') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>院系信息</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('manager_tchr') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>教师信息</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('manager_stu') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>学生信息</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('manager_class') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>查看课程</span>
+        </a>
+    </li>
+        <li class="tpl-left-nav-item">
+        <a class=" nav-link tpl-left-nav-link-list"  href={{ url_for('manager_class_add') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>添加课程</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list"  href={{ url_for('mang_class_delete') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>删除课程</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('manager_open_class_add') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>添加开课</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('mang_del_open_class') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>删除开课</span>
+        </a>
+    </li>
+{% endblock %}
+
+{% block form_above %}
+    <h1 align="center">欢迎登录&nbsp;&nbsp;<span style="font-size: 35px;color: #0e90d2">管理员</span>&nbsp;&nbsp;管理系统，点击左侧功能列表中的按钮，显示对应的信息
+    </h1>
+    <script>
+        {% if sta %}
+            {% if sta==1 %}
+                alert('欢迎进入管理系统')
+            {% else %}
+                alert('用户名或密码错误')
+            {% endif %}
+        {% endif %}
+    </script>
+{% endblock %}

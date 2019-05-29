@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>成绩-选课管理系统</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="index">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="icon" type="image/png" href="assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="/static/assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+    <link rel="stylesheet" href="/static/assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/static/assets/css/admin.css">
+    <link rel="stylesheet" href="/static/assets/css/app.css">
+
+</head>
+
+<body data-type="generalComponents">
+<header class="am-topbar am-topbar-inverse admin-header">
+    <div class="am-topbar-brand">
+        <a href="javascript:;" class="tpl-logo">
+            <img src="/static/assets/img/logo.png" alt="">
+        </a>
+    </div>
+    <div class="am-icon-list tpl-header-nav-hover-ico am-fl am-margin-right">
+    </div>
+
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
+            {% if user %}
+                <a href="#">{{ user }}</a>
+                <a href={{ url_for('logout') }}>注销</a></ul>
+            {% else %}
+                <a href={{ url_for('login') }}>登陆</a>
+            {% endif %}
+        </ul>
+    </div>
+</header>
+
+<div class="tpl-page-container tpl-page-header-fixed">
+    <div class="tpl-left-nav tpl-left-nav-hover">
+        <div class="tpl-left-nav-title">
+            功能列表
+        </div>
+        <div class="tpl-left-nav-list">
+            <ul class="tpl-left-nav-menu">
+
+                <li class="tpl-left-nav-item">
+                    <a class="nav-link tpl-left-nav-link-list" href={{ url_for('student_index') }}>
+                        <i class="am-icon-home"></i>
+                        <span>系统首页</span>
+                    </a>
+                </li>
+
+                <li class="tpl-left-nav-item">
+                    <a class=" nav-link tpl-left-nav-link-list" href={{ url_for('student_grade') }}>
+                        <i class="am-icon-bar-chart"></i>
+                        <span>成绩信息</span>
+                    </a>
+                </li>
+                <li class="tpl-left-nav-item">
+                    <a class="nav-link tpl-left-nav-link-list" href={{ url_for('student_class') }}>
+                        <i class="am-icon-bar-chart"></i>
+                        <span>开课信息</span>
+                    </a>
+                </li>
+                <li class="tpl-left-nav-item">
+                    <a class="nav-link tpl-left-nav-link-list" href={{ url_for('student_select') }}>
+                        <i class="am-icon-bar-chart"></i>
+                        <span>选择课程</span>
+                    </a>
+                </li>
+                <li class="tpl-left-nav-item">
+                    <a class="nav-link tpl-left-nav-link-list" href={{ url_for('student_drop') }}>
+                        <i class="am-icon-bar-chart"></i>
+                        <span>退选课程</span>
+                    </a>
+                </li>
+                </li>
+                <li class="tpl-left-nav-item">
+                    <a class="nav-link active" href={{ url_for('stu_notice_view') }}>
+                        <i class="am-icon-bar-chart"></i>
+                        <span>通知详情</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="tpl-content-wrapper">
+        <div class="tpl-portlet-components">
+            <div class="tpl-block">
+                <ul>
+                    {% if posts %}
+                        {% for post in posts %}
+                            <li class="am-g am-u-sm-12 post_li">
+                                <div class="notice-img">
+                                    <img class="side-img-notice"
+                                         src="{{ url_for('static',filename='assets/img/note.ico') }}">
+                                </div>
+                                <div class="question_group">
+                                    <p class="question_title">{{ post.title }}</p>
+                                    <p class="question_content">{{ post.content }}</p>
+                                    <div class="question_info">
+                                        <span class="question_autor">{{ post.t_name }}</span>
+                                        <span class="question_time">{{ post.time }}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+
+            <div class="tpl-alert"></div>
+
+        </div>
+    </div>
+</div>
+
+<script src="/static/assets/js/jquery.min.js"></script>
+<script src="/static/assets/js/amazeui.min.js"></script>
+<script src="/static/assets/js/app.js"></script>
+
+</body>
+
+</html>

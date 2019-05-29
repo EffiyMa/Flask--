@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('teacher_index') }}>
+            <i class="am-icon-home"></i>
+            <span>系统首页</span>
+        </a>
+    </li>
+
+    <li class="tpl-left-nav-item">
+        <a class=" nav-link tpl-left-nav-link-list" href={{ url_for('teacher_class') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>教学计划</span>
+            {#            查看老师所教班级，选课人数#}
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link active" href={{ url_for('stu_search') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>学生查询</span>
+            {#            班级学生成绩输入#}
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('teacher_grade') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>成绩录入</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('notice_board') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>发布通知</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('notice_view') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>我的发布</span>
+        </a>
+    </li>
+{% endblock %}
+
+{% block form_above %}
+    <form action="/teacher/stu_search/" method="post">
+        学期：
+        <select name="sem">
+            {% if sem_info %}
+                <option value="None" selected="selected">默认</option>
+                {% for item in sem_info %}
+                    <option value="{{ item.semester }}">{{ item.semester }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+        课程号：
+        <select name="cno">
+            {% if cls_info %}
+                <option value="None" selected="selected">默认</option>
+                {% for item in cls_info %}
+                    <option value="{{ item.cno }}">{{ item.cno }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        课程名:
+        <select name="cname">
+            {% if cls_info %}
+                <option value="None" selected="selected">默认</option>
+                {% for item in cls_info %}
+                    <option value="{{ item.c_name }}">{{ item.c_name }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <input class="am-btn-secondary" type="submit" value="查询"/>
+        <input class="am-accordion-basic" type="reset" value="重置"/>
+    </form>
+{% endblock %}
+
+
+{% block form_body %}
+    <form class="am-form">
+        <table class="am-table am-table-striped am-table-hover table-main">
+            <tbody>
+            {% if col_name %}
+                <tr>
+                    <td>{{ col_name[0] }}</td>
+                    <td>{{ col_name[1] }}</td>
+                    <td>{{ col_name[2] }}</td>
+                    <td>{{ col_name[3] }}</td>
+                    <td>{{ col_name[4] }}</td>
+                    <td>{{ col_name[5] }}</td>
+                </tr>
+            {% endif %}
+
+            {% if stu_list %}
+                {% for item in stu_list %}
+                    <tr>
+                        <td>{{ item.semester }}</td>
+                        <td>{{ item.cno }}</td>
+                        <td>{{ item.c_name }}</td>
+                        <td>{{ item.sno }}</td>
+                        <td>{{ item.s_name }}</td>
+                        <td>{{ item.d_name }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+        <hr>
+    </form>
+{% endblock %}

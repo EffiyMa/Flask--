@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('student_index') }}>
+            <i class="am-icon-home"></i>
+            <span>系统首页</span>
+        </a>
+    </li>
+
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('student_grade') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>成绩信息</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('student_class') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>开课信息</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link active" href={{ url_for('student_select') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>选择课程</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('student_drop') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>退选课程</span>
+        </a>
+    </li>
+
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('stu_notice_view') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>通知详情</span>
+        </a>
+    </li>
+{% endblock %}
+
+{% block form_above %}
+    <form action="" method="post">
+        课程号：
+        <input type="text" name="c_no1" placeholder="C2">
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        教师号：
+        <input type="text" name="t_no1" placeholder="00022001">
+        <br>
+        课程号：
+        <input type="text" name="c_no2" placeholder="C4">
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        教师号：
+        <input type="text" name="t_no2" placeholder="00022003">
+
+        <div>
+            <input class="am-btn-secondary" type="submit" value="提交"/>
+            <input class="am-accordion-basic" type="reset" value="重置"/>
+
+            <script>
+                {% if sta_list %}
+                    {% if sta_list[0]==True and sta_list[2]!=1 %}
+                        alert('选课1失败')
+                    {% elif sta_list[0]==True and sta_list[2]==1 %}
+                        alert('选课1成功')
+                    {% endif %}
+                    {% if sta_list[1]==True and sta_list[3]!=1 %}
+                        alert('选课2失败')
+                    {% elif sta_list[1]==True and sta_list[3]==1 %}
+                        alert('选课2成功')
+                    {% endif %}
+                    {% if sta_list[0]==False and sta_list[1]==False %}
+                        alert('无任何新选课程')
+                    {% endif %}
+                {% endif %}
+            </script>
+
+        </div>
+    </form>
+{% endblock %}
+
+{% block form_top %}
+    <div class="caption font-green bold">
+        已选课程
+    </div>
+{% endblock %}
+
+{% block form_body %}
+    <form class="am-form">
+        <table class="am-table am-table-striped am-table-hover table-main">
+            <tbody>
+            {% if col_name %}
+                <tr>
+                    <td>{{ col_name[0] }}</td>
+                    <td>{{ col_name[1] }}</td>
+                    <td>{{ col_name[2] }}</td>
+                    <td>{{ col_name[3] }}</td>
+                    <td>{{ col_name[4] }}</td>
+                </tr>
+            {% endif %}
+
+            {% if info %}
+                {% for item in info %}
+                    <tr>
+                        <td>{{ item.cno }}</td>
+                        <td>{{ item.c_name }}</td>
+                        <td>{{ item.credit }}</td>
+                        <td>{{ item.tno }}</td>
+                        <td>{{ item.t_name }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+
+            </tbody>
+        </table>
+
+        <hr>
+    </form>
+{% endblock %}

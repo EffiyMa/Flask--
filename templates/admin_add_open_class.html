@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+    <li class="tpl-left-nav-item">
+        <a class=" nav-link tpl-left-nav-link-list" href={{ url_for('manager_index') }}>
+            <i class="am-icon-home"></i>
+            <span>系统首页</span>
+        </a>
+    </li>
+
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('manager_depart') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>院系信息</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('manager_tchr') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>教师信息</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('manager_stu') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>学生信息</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('manager_class') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>查看课程</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class=" nav-link tpl-left-nav-link-list"  href={{ url_for('manager_class_add') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>添加课程</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('mang_class_delete') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>删除课程</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link active" href={{ url_for('manager_open_class_add') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>添加开课</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('mang_del_open_class') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>删除开课</span>
+        </a>
+    </li>
+{% endblock %}
+
+{% block form_above %}
+    <br>
+    <form action="" method="post">
+        课程号：
+        <select name="c_lass">
+            {% if cls %}
+                <option value="None" selected="selected">默认</option>
+                {% for item in cls %}
+                    <option value="{{ item.cno }}">{{ item.cno }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+        教师号：
+        <input type="text" name="t_no1" placeholder="00022002">
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+        教师号：
+        <input type="text" name="t_no2" placeholder="00022003">
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+        <div>
+            <input class="am-btn-secondary" type="submit" value="提交"/>
+            <input class="am-accordion-basic" type="reset" value="重置"/>
+
+            <script>
+                {% if sta %}
+                    {% if (sta[2] and sta[3] )==1 %}
+                        alert('添加开课成功')
+                    {% else %}
+                        alert('添加开课失败')
+                    {% endif %}
+                {% endif %}
+            </script>
+
+        </div>
+    </form>
+{% endblock %}
+
+{% block form_top %}
+    <div class="caption font-green bold">
+        开课
+    </div>
+{% endblock %}
+
+{% block form_body %}
+    <form class="am-form">
+        <table class="am-table am-table-striped am-table-hover table-main">
+            <tbody>
+            {% if col_name %}
+                <tr>
+                    <td>{{ col_name[0] }}</td>
+                    <td>{{ col_name[1] }}</td>
+                    <td>{{ col_name[2] }}</td>
+                    <td>{{ col_name[3] }}</td>
+                </tr>
+            {% endif %}
+
+            {% if All_open %}
+                {% for item in All_open %}
+                    <tr>
+                        <td>{{ item.cno }}</td>
+                        <td>{{ item.c_name }}</td>
+                        <td>{{ item.tno }}</td>
+                        <td>{{ item.t_name }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+
+            </tbody>
+        </table>
+
+        <hr>
+    </form>
+{% endblock %}

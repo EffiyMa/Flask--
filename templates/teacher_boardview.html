@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list " href={{ url_for('teacher_index') }}>
+            <i class="am-icon-home"></i>
+            <span>系统首页</span>
+        </a>
+    </li>
+
+    <li class="tpl-left-nav-item">
+        <a class=" nav-link tpl-left-nav-link-list" href={{ url_for('teacher_class') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>教学计划</span>
+            {#            查看老师所教班级，选课人数#}
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('stu_search') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>学生查询</span>
+            {#            班级学生成绩输入#}
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('teacher_grade') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>成绩录入</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('notice_board') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>发布通知</span>
+        </a>
+    </li>
+
+    <li class="tpl-left-nav-item">
+        <a class="nav-link active" href={{ url_for('notice_view') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>我的发布</span>
+        </a>
+    </li>
+
+{% endblock %}
+
+{% block form_above %}
+    <div class="caption font-green bold">
+        我的发布
+    </div>
+{% endblock %}
+
+
+{% block form_body %}
+    <form class="am-form" method="post">
+        <table class="am-table am-table-striped am-table-hover table-main" width="100%">
+            {% if info %}
+                {% for post in info %}
+                    <tr>
+                        <td><input type="checkbox" name="chk_box" value="{{ post.id }}"></td>
+                        {#                    <td>{{ post.b }}</td>#}
+                        {#                    <td>{{ post.c }}</td>#}
+                        {#                    <td>{{ post.e }}</td>#}
+                        <td>
+                            <div class="notice-img">
+                                <img class="side-img-notice"
+                                     src="{{ url_for('static',filename='assets/img/note.ico') }}">
+                            </div>
+                            <div class="question_group">
+                                <p class="question_title">{{ post.title }}</p>
+                                <p class="question_content">{{ post.content }}</p>
+                                <div class="question_info">
+                                    <span class="question_autor">{{ post.t_name }}</span>
+                                    <span class="question_time">{{ post.time }}</span>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+
+                {% endfor %}
+            {% endif %}
+        </table>
+
+        <div style="float: right">
+            <input class="am-btn-secondary" type="submit" value="提交"/>
+            <input class="am-accordion-basic" type="reset" value="重置"/>
+        </div>
+
+        <script>
+            {% if sta %}
+                {% if sta==0  %}
+                    alert('删除失败')
+                {% else %}
+                    alert('删除成功')
+                {% endif %}
+            {% endif %}
+
+        </script>
+
+    </form>
+
+
+    </div>
+
+    <div class="tpl-alert"></div>
+
+    </div>
+    </div>
+
+{% endblock %}

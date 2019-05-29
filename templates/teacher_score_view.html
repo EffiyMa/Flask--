@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{#{% block head %}#}
+{#    <script src="{{ url_for('static', filename='assets/js/echarts.min.js')}}">#}
+{#    </script>#}
+{#{% endblock %}#}
+
+{% block navbar %}
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('teacher_index') }}>
+            <i class="am-icon-home"></i>
+            <span>系统首页</span>
+        </a>
+    </li>
+
+    <li class="tpl-left-nav-item">
+        <a class=" nav-link tpl-left-nav-link-list" href={{ url_for('teacher_class') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>教学计划</span>
+            {#            查看老师所教班级，选课人数#}
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('stu_search') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>学生查询</span>
+            {#            班级学生成绩输入#}
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link active" href={{ url_for('teacher_grade') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>成绩录入</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('notice_board') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>发布通知</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('notice_view') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>我的发布</span>
+        </a>
+    </li>
+{% endblock %}
+
+{% block form_above %}
+    <div>
+        <a class="caption font-green bold" href={{ url_for('teacher_grade') }}>
+            返回
+        </a>
+    </div>
+{% endblock %}
+
+
+{% block form_body %}
+    <form class="am-form">
+        <table class="am-table am-table-striped am-table-hover table-main">
+            <tbody>
+            {% if col_name1 %}
+                <tr>
+                    <td>{{ col_name1[0] }}</td>
+                    <td>{{ col_name1[1] }}</td>
+                    <td>{{ col_name1[2] }}</td>
+                    <td>{{ col_name1[3] }}</td>
+
+                </tr>
+            {% endif %}
+
+            {% if grade_info %}
+                {% for item in grade_info %}
+                    <tr>
+                        <td>{{ item.sno }}</td>
+                        <td>{{ item.s_name }}</td>
+                        <td>{{ item.d_name }}</td>
+                        <td>{{ item.grade }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+        <hr>
+    </form>
+{% endblock %}
+
+{% block other %}
+    {#   echarts 统计图#}
+    {% if semester != "2017-2018 春季" and gra_count_list %}
+        <script type="text/javascript">
+            var myChart1 = echarts.init(document.getElementById("grade_bar"));
+            option1 = {
+                title: {
+                    text: '成绩统计表'
+                },
+                tooltip: {},
+                legend: {
+                    data: ['人数']
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: {show: true},
+                        dataView: {show: true, readOnly: false},
+                        magicType: {show: true, type: ['line', 'bar']},
+                        restore: {show: true},
+                        saveAsImage: {show: true}
+                    }
+                },
+                calculable: true,
+                xAxis: {
+                    data: ["不及格(<60)", "及格(60-70)", "中(70-80)", "良(80-90)", "优(>=90)"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '人数',
+                    type: 'bar',
+                    data: [
+                        {{ gra_count_list[0].E }}, {{ gra_count_list[0].D}}, {{ gra_count_list[0].C}}, {{ gra_count_list[0].B}}, {{ gra_count_list[0].A}}
+                    ],
+                    itemStyle:{
+                                    normal:{
+                                        color:'#66b2fa'
+                                    }
+                                },
+                }]
+            };
+            myChart1.setOption(option1);
+
+
+            var myChart2 = echarts.init(document.getElementById('grade_pie'));
+            option2 = {
+                title: {
+                    text: '成绩分布百分比',
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    x: 'left',
+                    data: ["不及格(<60)", "及格(60-70)", "中(70-80)", "良(80-90)", "优(>=90)"]
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: {show: true},
+                        dataView: {show: true, readOnly: false},
+                        magicType: {
+                            show: true,
+                            type: ['pie', 'funnel'],
+                            option: {
+                                funnel: {
+                                    x: '25%',
+                                    width: '50%',
+                                    funnelAlign: 'left',
+                                    max: 1548
+                                }
+                            }
+                        },
+                        restore: {show: true},
+                        saveAsImage: {show: true}
+                    }
+                },
+                calculable: true,
+                series: [
+                    {
+                        name: '访问来源',
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['50%', '60%'],
+                        data: [
+                            {value: {{ gra_count_list[0].E}}, name: '不及格(<60)'},
+                            {value: {{ gra_count_list[0].D}}, name: '及格(60-70)'},
+                            {value: {{ gra_count_list[0].C}}, name: '中(70-80)'},
+                            {value: {{ gra_count_list[0].B}}, name: '良(80-90)'},
+                            {value: {{ gra_count_list[0].A}}, name: '优(>=90)'}
+                        ]
+                    }
+                ]
+            };
+            myChart2.setOption(option2)
+        </script>
+    {% endif %}
+
+{% endblock %}
+

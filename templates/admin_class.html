@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+    <li class="tpl-left-nav-item">
+        <a class=" nav-link tpl-left-nav-link-list" href={{ url_for('manager_index') }}>
+            <i class="am-icon-home"></i>
+            <span>系统首页</span>
+        </a>
+    </li>
+
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list"  href={{ url_for('manager_depart') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>院系信息</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('manager_tchr') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>教师信息</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('manager_stu') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>学生信息</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link active" href={{ url_for('manager_class') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>查看课程</span>
+        </a>
+    </li>
+
+    <li class="tpl-left-nav-item">
+        <a class=" nav-link tpl-left-nav-link-list"  href={{ url_for('manager_class_add') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>添加课程</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list"  href={{ url_for('mang_class_delete') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>删除课程</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('manager_open_class_add') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>添加开课</span>
+        </a>
+    </li>
+    <li class="tpl-left-nav-item">
+        <a class="nav-link tpl-left-nav-link-list" href={{ url_for('mang_del_open_class') }}>
+            <i class="am-icon-bar-chart"></i>
+            <span>删除开课</span>
+        </a>
+    </li>
+{% endblock %}
+
+{% block form_above %}
+    <div class="caption font-green bold">
+        课程信息
+    </div>
+{% endblock %}
+
+
+{% block form_body %}
+    <form class="am-form">
+        <table class="am-table am-table-striped am-table-hover table-main">
+            <tbody>
+            {% if col_name %}
+                <tr>
+                    {#                课程号#}
+                    <td>{{ col_name[0] }}</td>
+                    {#                    课程名#}
+                    <td>{{ col_name[1] }}</td>
+                    {#                    学分#}
+                    <td>{{ col_name[2] }}</td>
+                    {#                  课时  #}
+                    <td>{{ col_name[3] }}</td>
+                    {#                    院系#}
+                    <td>{{ col_name[4] }}</td>
+
+                    {#                    上课时间#}
+                    <td>{{ col_name[5] }}</td>
+                    <td>其他</td>
+                </tr>
+            {% endif %}
+
+            {% if cls_info  %}
+                {% for item in cls_info %}
+                    <tr>
+                        <td>{{ item.cno }}</td>
+                        <td>{{ item.c_name }}</td>
+                        <td>{{ item.credit }}</td>
+                        <td>{{ item.period }}</td>
+                        <td>{{ item.d_name }}</td>
+                        <td>{{ item.time }}</td>
+                        {#                        <td><a href={{ url_for('manager_open_class',semester=semester,cno=item.cno) }}>查看开课</a></td>#}
+                        <td><a href={{ url_for('manager_open_class',semester=semester,cno=item.cno) }}>查看开课</a></td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+        <hr>
+    </form>
+
+
+
+{% endblock %}

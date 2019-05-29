@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+
+
+                <li class="tpl-left-nav-item">
+                    <a class="nav-link tpl-left-nav-link-list" href={{ url_for('student_index') }}>
+                        <i class="am-icon-home"></i>
+                        <span>系统首页</span>
+                    </a>
+                </li>
+
+                <li class="tpl-left-nav-item">
+                    <a class=" nav-link tpl-left-nav-link-list" href={{ url_for('student_grade') }}>
+                        <i class="am-icon-bar-chart"></i>
+                        <span>成绩信息</span>
+                    </a>
+                </li>
+                <li class="tpl-left-nav-item">
+                    <a class="nav-link active" href={{ url_for('student_class') }}>
+                        <i class="am-icon-bar-chart"></i>
+                        <span>开课信息</span>
+                    </a>
+                </li>
+                <li class="tpl-left-nav-item">
+                    <a class="nav-link tpl-left-nav-link-list" href={{ url_for('student_select') }}>
+                        <i class="am-icon-bar-chart"></i>
+                        <span>选择课程</span>
+                    </a>
+                </li>
+                <li class="tpl-left-nav-item">
+                    <a class="nav-link tpl-left-nav-link-list" href={{ url_for('student_drop') }}>
+                        <i class="am-icon-bar-chart"></i>
+                        <span>退选课程</span>
+                    </a>
+                </li>
+                </li>
+                <li class="tpl-left-nav-item">
+                    <a class="nav-link tpl-left-nav-link-list" href={{ url_for('stu_notice_view') }}>
+                        <i class="am-icon-bar-chart"></i>
+                        <span>通知详情</span>
+                    </a>
+                </li>
+
+{% endblock %}
+
+{% block form_above %}
+    <form action="/student/class/" method="post">
+        课程号：
+        <input type="text" name="c_no" placeholder="C1">
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        课程名：
+        <input type="text" name="c_name" placeholder="高级语言程序">
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        专业:
+        <input type="text" name="c_dept" placeholder="计算机">
+        <br>
+        教师号：
+        <input type="text" name="t_no" placeholder="00022000">
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        教师名：
+        <input type="text" name="t_name" placeholder="王晓明">
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        学分:
+        <input type="text" name="c_credit" placeholder="3">
+        <div>
+            <input class="am-btn-secondary" type="submit" value="查询"/>
+            <input class="am-accordion-basic" type="reset" value="重置"/>
+        </div>
+    </form>
+{% endblock %}
+
+{% block form_body %}
+    <form class="am-form">
+        <table class="am-table am-table-striped am-table-hover table-main">
+            <tbody>
+            {% if col_name %}
+                <tr>
+                    <td>{{ col_name[0] }}</td>
+                    <td>{{ col_name[1] }}</td>
+                    <td>{{ col_name[2] }}</td>
+                    <td>{{ col_name[3] }}</td>
+                    <td>{{ col_name[4] }}</td>
+                    <td>{{ col_name[5] }}</td>
+                    <td>{{ col_name[6] }}</td>
+                </tr>
+            {% endif %}
+
+            {% if info %}
+                {% for item in info %}
+                    <tr>
+                        <td>{{ item.cno }}</td>
+                        <td>{{ item.c_name }}</td>
+                        <td>{{ item.credit }}</td>
+                        <td>{{ item.tno }}</td>
+                        <td>{{ item.t_name }}</td>
+                        <td>{{ item.d_name }}</td>
+                        <td>{{ item.time }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+        <hr>
+    </form>
+{% endblock %}
+
