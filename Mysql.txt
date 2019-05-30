@@ -1,0 +1,303 @@
+drop table if exists D;
+create table D
+( dno varchar(2) not null primary key,
+  d_name char(10) not null,
+  address char(16) not null,
+  phone varchar(8) not null);
+insert into D values('01','计算机学院','上大东校区三号楼','65347567');
+insert into D values('02','通讯学院','上大东校区二号楼','65341234');
+insert into D values('03','材料学院','上大东校区四号楼','65347890');
+########管理员###########
+drop table if exists M;
+create table M(
+  mno varchar(10)not null primary key,
+  m_name varchar(10) not null,
+  phone  char(11) not null,
+  m_pwd varchar(20) not null
+);
+insert into M values ('22222222','管理员1','52866472','000000');
+insert into M values ('22222333','管理员2','52866473','000000');
+
+
+
+#############学生表###################
+drop table if exists S;
+create table S(
+  sno varchar(10)not null primary key,
+  s_name varchar(10) not null,
+  sex varchar(2) not null ,
+  birth datetime not null,
+  hometown varchar(6) not null,
+  s_dno varchar(2) not null,
+  phone  char(11) not null,
+  s_pwd varchar(20) not null,
+  foreign key (s_dno) references D(dno)
+);
+insert into S values ('16122000','马逸斐','女','1997-03-06','上海','01','13613005466','123456');
+insert into S values ('16122001','刘晓明','男','1998-12-08','上海','02','18913457890','123456');
+insert into S values ('16122002','张梦洁','女','1997-01-05','浙江','03','18826490423','123456');
+insert into S values ('16122003','徐茹雪','女','1998-11-06','上海','01','13331934111','123456');
+insert into S values ('16122004','陈小王','男','1997-06-07','浙江','02','18107620945','123456');
+insert into S values ('16122005','刘伟','男','1998-12-07','江苏','01','18507720845','123456');
+insert into S values ('16122006','陈成','男','1997-4-07','上海','01','17509710468','123456');
+
+####################################
+drop table if exists T; ###################需要修改 触发器############
+create table T(
+  tno varchar(10) not null  primary key ,
+  t_name varchar(10) not null ,
+  sex varchar(2) not null check(sex='男' or sex='女') ,
+  birth datetime not null,
+  background varchar(10) not null check(background in('讲师','副教授','教授')),
+  salary numeric(6,2) not null check(salary>0),
+  t_dno varchar(10) not null ,
+  t_pwd varchar(20) not null,
+  foreign key (t_dno) references D(dno)
+);
+
+insert into T values ('00022000','王晓明','男','1973-03-06','副教授','3567.00','01','456789');
+insert into T values ('00022001','刘红','女','1972-12-08','副教授','3567.00','01','456789');
+insert into T values ('00022002','李严劲','男','1973-03-06','副教授','3567.00','01','456789');
+insert into T values ('00022003','吴志刚','男','1972-12-08','讲师','2845.00','01','456789');
+insert into T values ('00022004','蒋英岳','男','1960-01-05','讲师','2845.00','01','456789');
+insert into T values ('00022005','许惠敏','男','1972-12-08','教授','4200.00','01','456789');
+insert into T values ('00022006','吴志刚','男','1960-01-05','教授','4200.00','01','456789');
+insert into T values ('00022007','徐小蓝','男','1960-01-05','讲师','2845.00','01','456789');
+insert into T values ('00022008','吴宝钢','男','1980-11-06','讲师','2845.00','02','456789');
+insert into T values ('00022009','张心颖','女','1960-01-05','教授','4200.00','03','456789');
+
+########################
+drop table if exists C;
+create table C(
+  cno varchar(10) not null ,
+  c_name varchar(10) not null ,
+  credit integer default 4,
+  period varchar(2) default '40',
+  c_dno varchar(10) not null ,
+  time varchar(10) not null ,
+  primary key (cno)
+);
+insert into C values('C1','高级语言程序',3,'30','01','周一 1-2');
+insert into C values('C2','数据结构',4,'40','01','周一 7-8');
+insert into C values('C3','离散数学',4,'40','01','周三 1-2');
+insert into C values('C4','计算机原理',4,'40','01','周三 1-2');
+insert into C values('C5','数据库原理',6,'60','01','周五 1-2');
+insert into C values('C6','Windows技术',4,'40','01','周二 9-11');
+insert into C values('C7','编译原理',4,'40','01','周四 2-4');
+insert into C values('C8','系统结构',5,'50','01','周二 1-3');
+insert into C values('C9','高年级研讨',2,'20','01','周三 3-4');
+insert into C values('C10','微积分',5,'50','01','周五 3-4');
+insert into C values('C11','操作系统',6,'60','01','周二 1-4');
+insert into C values('C12','移动开发',5,'50','01','周三 11-13');
+insert into C values('C13','高级办公应用',3,'30','01','周二 5-6');
+insert into C values('C14','面向对象设计',3,'30','01','周一 3-4');
+insert into C values('C15','计算机视觉',5,'40','01','周二 9-10');
+insert into C values('C16','数字逻辑',3,'30','01','周二 1-2');
+insert into C values('C17','数字逻辑实验',2,'20','01','周五 3-4');
+insert into C values('C18','神经网络',5,'50','01','周五 7-8');
+insert into C values('C19','计算机网络',5,'50','01','周二 7-8');
+insert into C values('C20','汇编语言',5,'50','01','周一 3-4');
+insert into C values('C21','微波原理',5,'50','02','周五 3-4');
+insert into C values('C22','材料认知',5,'50','03','周二 9-11');
+
+
+##开课表####################################
+drop table if exists O;
+create table O(
+  semester varchar(14) not null,
+  cno varchar(10) not null ,
+  tno varchar(10) not null,
+  primary key(semester,cno,tno),
+  foreign key (cno) references C(cno),
+  foreign key (tno) references T(tno)
+);
+insert into O values('2017-2018 秋季','C1','00022000');
+insert into O values('2017-2018 秋季','C1','00022001');
+insert into O values('2017-2018 春季','C1','00022000');
+insert into O values('2017-2018 春季','C1','00022001');
+
+insert into O values('2017-2018 秋季','C2','00022001');
+insert into O values('2017-2018 秋季','C2','00022002');
+insert into O values('2017-2018 春季','C2','00022001');
+insert into O values('2017-2018 春季','C2','00022002');
+
+insert into O values('2017-2018 秋季','C3','00022002');
+insert into O values('2017-2018 秋季','C3','00022003');
+insert into O values('2017-2018 春季','C3','00022002');
+insert into O values('2017-2018 春季','C3','00022003');
+
+insert into O values('2017-2018 春季','C4','00022003');
+insert into O values('2017-2018 春季','C4','00022004');
+
+insert into O values('2017-2018 秋季','C5','00022004');
+insert into O values('2017-2018 秋季','C5','00022005');
+
+insert into O values('2017-2018 秋季','C6','00022005');
+insert into O values('2017-2018 春季','C6','00022006');
+
+insert into O values('2017-2018 春季','C7','00022006');
+insert into O values('2017-2018 春季','C7','00022007');
+
+insert into O values('2017-2018 春季','C8','00022007');
+insert into O values('2017-2018 春季','C8','00022000');
+
+insert into O values('2017-2018 秋季','C9','00022006');
+insert into O values('2017-2018 秋季','C9','00022007');
+
+insert into O values('2017-2018 秋季','C10','00022005');
+insert into O values('2017-2018 秋季','C10','00022006');
+insert into O values('2017-2018 秋季','C11','00022004');
+insert into O values('2017-2018 秋季','C11','00022005');
+
+insert into O values('2017-2018 春季','C12','00022003');
+insert into O values('2017-2018 春季','C12','00022004');
+
+insert into O values('2017-2018 春季','C13','00022002');
+insert into O values('2017-2018 春季','C13','00022003');
+
+insert into O values('2017-2018 春季','C14','00022001');
+insert into O values('2017-2018 春季','C14','00022002');
+
+insert into O values('2017-2018 秋季','C15','00022000');
+insert into O values('2017-2018 秋季','C15','00022001');
+insert into O values('2017-2018 秋季','C16','00022000');
+insert into O values('2017-2018 秋季','C16','00022001');
+insert into O values('2017-2018 秋季','C17','00022001');
+insert into O values('2017-2018 秋季','C17','00022002');
+
+insert into O values('2017-2018 秋季','C18','00022002');
+insert into O values('2017-2018 秋季','C18','00022003');
+insert into O values('2017-2018 春季','C18','00022002');
+insert into O values('2017-2018 春季','C18','00022003');
+
+insert into O values('2017-2018 秋季','C19','00022003');
+insert into O values('2017-2018 秋季','C19','00022004');
+insert into O values('2017-2018 春季','C19','00022003');
+insert into O values('2017-2018 春季','C19','00022004');
+
+insert into O values('2017-2018 秋季','C20','00022004');
+insert into O values('2017-2018 秋季','C20','00022005');
+insert into O values('2017-2018 春季','C20','00022004');
+insert into O values('2017-2018 春季','C20','00022005');
+
+insert into O values('2017-2018 春季','C21','00022008');
+insert into O values('2017-2018 秋季','C21','00022008');
+
+insert into O values('2017-2018 秋季','C22','00022009');
+insert into O values('2017-2018 春季','C22','00022009');
+
+##选课表####################################
+drop table if exists SC;
+create table SC(
+  semester varchar(14) not null,
+  sno varchar(10) not null ,
+  cno varchar(10) not null ,
+  tno varchar(10) not null,
+  ps_grade integer default NULL,
+  ks_grade integer default NULL,
+  sum_grade integer default NULL,
+  primary key (sno,cno,semester,tno),
+  foreign key (sno) references S(sno),
+  foreign key (semester,cno,tno) references O(semester,cno,tno)
+);
+
+insert into SC values ('2017-2018 秋季','16122000','C2','00022001',88,88,88);
+insert into SC values ('2017-2018 秋季','16122000','C5','00022004',86,86,86);
+insert into SC values ('2017-2018 春季','16122000','C6','00022006',60,60,60);
+insert into SC values ('2017-2018 春季','16122000','C7','00022007',null,null,null);
+insert into SC values ('2017-2018 春季','16122000','C18','00022003',null,null,null);
+insert into SC values ('2017-2018 秋季','16122000','C3','00022003',93,93,93);
+insert into SC values ('2017-2018 秋季','16122000','C15','00022000',95,95,95);
+insert into SC values ('2017-2018 秋季','16122000','C17','00022002',70,70,70);
+insert into SC values ('2017-2018 春季','16122000','C20','00022005',null,null,null);
+insert into SC values ('2017-2018 春季','16122000','C8','00022000',NULL,null,null);
+
+insert into SC values ('2017-2018 秋季','16122001','C2','00022002',90,90,90);
+insert into SC values ('2017-2018 春季','16122001','C4','00022003',null,null,null);
+insert into SC values ('2017-2018 秋季','16122001','C5','00022005',89,89,89);
+insert into SC values ('2017-2018 春季','16122001','C12','00022004',null,null,null);
+insert into SC values ('2017-2018 秋季','16122001','C19','00022004',78,78,78);
+insert into SC values ('2017-2018 春季','16122001','C3','00022002',null,null,null);
+insert into SC values ('2017-2018 秋季','16122001','C15','00022001',96,96,96);
+insert into SC values ('2017-2018 秋季','16122001','C17','00022002',70,70,70);
+insert into SC values ('2017-2018 秋季','16122001','C20','00022004',80,80,80);
+insert into SC values ('2017-2018 春季','16122001','C8','00022000',NULL,null,null);
+
+insert into SC values ('2017-2018 秋季','16122002','C5','00022005',90,90,90);
+insert into SC values ('2017-2018 春季','16122002','C6','00022006',null,null,null);
+insert into SC values ('2017-2018 春季','16122002','C8','00022007',null,null,null);
+insert into SC values ('2017-2018 春季','16122002','C14','00022001',null,null,null);
+insert into SC values ('2017-2018 春季','16122002','C18','00022003',null,null,null);
+insert into SC values ('2017-2018 春季','16122002','C3','00022002',null,null,null);
+insert into SC values ('2017-2018 春季','16122002','C7','00022007',null,null,null);
+insert into SC values ('2017-2018 秋季','16122002','C9','00022007',85,85,85);
+insert into SC values ('2017-2018 秋季','16122002','C10','00022006',85,85,85);
+
+insert into SC values ('2017-2018 春季','16122003','C3','00022002',90,90,90);
+insert into SC values ('2017-2018 春季','16122003','C7','00022006',80,80,80);
+insert into SC values ('2017-2018 秋季','16122003','C9','00022006',90,90,90);
+insert into SC values ('2017-2018 秋季','16122003','C10','00022005',50,50,50);
+insert into SC values ('2017-2018 春季','16122003','C19','00022004',90,90,90);
+insert into SC values ('2017-2018 春季','16122003','C1','00022001',null,null,null);
+insert into SC values ('2017-2018 春季','16122003','C2','00022002',null,null,null);
+insert into SC values ('2017-2018 秋季','16122003','C11','00022005',80,80,80);
+insert into SC values ('2017-2018 春季','16122003','C12','00022004',null,null,null);
+insert into SC values ('2017-2018 春季','16122003','C14','00022002',null,null,null);
+insert into SC values ('2017-2018 春季','16122003','C8','00022000',NULL,null,null);
+
+insert into SC values ('2017-2018 春季','16122004','C3','00022002',90,90,90);
+insert into SC values ('2017-2018 春季','16122004','C4','00022003',null,null,null);
+insert into SC values ('2017-2018 秋季','16122004','C5','00022005',90,90,90);
+insert into SC values ('2017-2018 秋季','16122004','C10','00022005',85,85,85);
+insert into SC values ('2017-2018 秋季','16122004','C17','00022002',90,90,90);
+insert into SC values ('2017-2018 春季','16122004','C1','00022001',null,null,null);
+insert into SC values ('2017-2018 秋季','16122004','C9','00022007',null,null,null);
+insert into SC values ('2017-2018 秋季','16122004','C11','00022005',80,80,80);
+insert into SC values ('2017-2018 春季','16122004','C13','00022002',null,null,null);
+insert into SC values ('2017-2018 秋季','16122004','C15','00022001',80,80,80);
+insert into SC values ('2017-2018 秋季','16122004','C16','00022000',80,80,80);
+insert into SC values ('2017-2018 秋季','16122004','C20','00022004',80,80,80);
+insert into SC values ('2017-2018 春季','16122004','C8','00022000',NULL,null,null);
+
+insert into SC values ('2017-2018 秋季','16122000','C1','00022000',70,70,70);
+insert into SC values ('2017-2018 秋季','16122001','C1','00022000',80,70,70);
+insert into SC values ('2017-2018 秋季','16122002','C1','00022000',90,90,90);
+insert into SC values ('2017-2018 秋季','16122004','C1','00022000',95,95,95);
+insert into SC values ('2017-2018 秋季','16122005','C1','00022000',60,60,60);
+insert into SC values ('2017-2018 秋季','16122006','C1','00022000',58,58,58);
+insert into SC values ('2017-2018 春季','16122005','C8','00022000',NULL,null,null);
+insert into SC values ('2017-2018 春季','16122006','C8','00022000',NULL,null,null);
+
+insert into SC values ('2017-2018 春季','16122000','C1','00022000',null,null,null);
+insert into SC values ('2017-2018 春季','16122001','C1','00022000',null,null,null);
+insert into SC values ('2017-2018 春季','16122002','C1','00022000',null,null,null);
+insert into SC values ('2017-2018 春季','16122004','C1','00022000',null,null,null);
+insert into SC values ('2017-2018 春季','16122005','C1','00022000',null,null,null);
+insert into SC values ('2017-2018 春季','16122006','C1','00022000',null,null,null);
+
+drop trigger if exists Grade_cclt;
+create trigger Grade_cclt
+  before update on SC #一定要before update,用after update 再 update...set...会报错
+  for each row
+  begin
+    if NEW.ps_grade is not null and NEW.ks_grade is not null
+      then
+      set NEW.sum_grade=NEW.ps_grade * 0.7 + NEW.ks_grade * 0.3;
+    end if;
+  end;
+
+
+create table Note(
+  id int auto_increment primary key ,
+  title varchar(100) not null,
+  content longtext not null ,
+  tno varchar(10) not null ,
+  time datetime not null default NOW(),
+  foreign key (tno) references T(tno)
+);
+
+INSERT INTO Note(title, content, tno,time) VALUES ('关于更换教室通知','高级语言程序课程教室由原来的DJ103更换至DJ303','00022000','2017-12-29 16:25:46');
+INSERT INTO Note(title, content, tno) VALUES ('作业题目更正','微积分书面P200页的第4题平方改成立方','00022001');
+INSERT INTO Note(title, content, tno) VALUES ('五一研讨安排','五一回来直接研讨，研讨第六周的研讨题目','00022000');
+INSERT INTO Note(title, content, tno) VALUES ('数据库项目要求','本学期分组完成“教学事务管理系统”，具体要求如下：1.	系统必须是在B/S结构下实现。2.	数据库在原理1的School数据库基础下自行修改，只能添加，不能删除。','00022000');
+
